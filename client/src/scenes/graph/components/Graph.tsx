@@ -49,11 +49,27 @@ export class Graph extends React.Component {
     createGraph(graph: Lnd.Graph) {
         // map the graph nodes into simple objects that d3 will use
         // during rendering
-        this.nodes = [];
+        let nodesArr:D3Node[];
+        for(let i =0;i<graph.nodes.length;i++){
+            nodesArr.push({
+                id: graph.nodes[i].pub_key,
+                color: graph.nodes[i].color,
+                title: graph.nodes[i].alias
+            })
+        }
+        this.nodes =  nodesArr;
 
         // map the graph channels into simple objects that d3 will use
         // during rendering
-        this.links = [];
+        let linksArr:D3Link[];
+        for(let i =0;i<graph.edges.length;i++){
+            linksArr.push( {
+                id: graph.edges[i].channel_id,
+                source: graph.edges[i].node1_pub,
+                target: graph.edges[i].node2_pub
+            })
+        }
+        this.links = linksArr;
 
         // construct the initial svg container
         const width = this.svgRef.parentElement.clientWidth;
